@@ -9,6 +9,13 @@ ValidationContract.prototype.isRequired = (value, message) => {
         errors.push({ message: message });
 }
 
+ValidationContract.prototype.ratingValid = (value, message) => {
+    console.log(value);
+
+    if (value > 5 || value < 0)
+        errors.push({ message: message });
+}
+
 ValidationContract.prototype.hasMinLen = (value, min, message) => {
     if (!value || value.length < min)
         errors.push({ message: message });

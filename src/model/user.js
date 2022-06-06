@@ -18,8 +18,12 @@ const schema = new Schema({
             type: String,
             required: true,
         },
+        thumb: {
+            type: String,
+        },
         rating: {
             type: Number,
+            required: true,
         }
     }],
 });

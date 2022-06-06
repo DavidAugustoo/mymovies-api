@@ -5,23 +5,14 @@ const schema = new Schema({
     name: {
         type: String,
     },
-    email: {
+    thumb: {
         type: String,
         required: true
     },
-    password: {
-        type: String,
+    rating: {
+        type: Number,
         required: true
-    },
-    movies: [{
-        name: {
-            type: String,
-            required: true,
-        },
-        rating: {
-            type: Number,
-        }
-    }],
+    }
 });
 
 module.exports = mongoose.model('Movie', schema);
