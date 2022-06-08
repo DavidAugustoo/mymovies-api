@@ -9,7 +9,7 @@ exports.all = async (req, res) => {
 
         var response = await repository.get(data.id);
 
-        res.status(200).send(response);
+        res.status(200).send(response[0].movies);
     } catch (e) {
         console.log(e)
         res.status(500).send({
@@ -69,16 +69,22 @@ exports.edit = async (req, res) => {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
 
-        await repository.update(data.id, {
+        let response = await repository.update(data.id, {
             id: req.params.id,
             name: req.data.name,
             thumb: req.data.thumb,
             rating: req.data.rating
         });
 
-        res.status(200).send({
-            message: 'Filme atualizado com sucesso!'
-        });
+        if(response == true) {
+            res.status(200).send({
+                message: 'Filme atualizado com sucesso!'
+            })
+        } else {
+            res.status(401).send({
+                message: 'Filme não encontrado como favorito'
+            })
+        };
     } catch (e) {
         console.log(e);
         res.status(500).send({
@@ -100,7 +106,6 @@ exports.delete = async (req, res) => {
             message: 'Filme deletado com sucesso!'
         });
     } catch (e) {
-        console.log(e)
         res.status(500).send({
             message: 'Falha ao processar sua requisição'
         });

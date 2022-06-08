@@ -1,0 +1,197 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de cadastro de filmes favoritos",
+        "description": "Essa api tem como objetivo cadastrar filmes favoritos",
+        "contact": {
+            "email": "davidribeiro086@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Api de teste"
+        }
+    ],
+    "paths": {
+        "/movie": {
+            "get": {
+                "summary": "Listar todos os filmes favoritos",
+                "description": "Essa rota será responsável por listar todos os filmes favoritos",
+                "tag": ["Movie"],
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "movies": {
+                                        "$ref": "#/components/schemas/Movie"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastro de filmes favoritos",
+                "description": "Essa rota será responsável por cadastrar um novo filme favorito",
+                "tag": ["Movie"],
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Movie"
+                            },
+                            "examples": {
+                                "movie": {
+                                    "value": {
+                                        "name": "Homem Aranha",
+                                        "rating": 5
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "400": {
+                        "description": "Dados Inválidos"
+                    },
+                    "201": {
+                        "description": "Filme cadastrado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao processar sua requisição"
+                    } 
+                }
+            }
+            
+        },
+        "/movie/{id}": {
+            "put": {
+                "summary": "Alterar dados de filmes cadastrados",
+                "description": "Essa rota será responsável por alterar informações de dados cadastrados",
+                "tag": ["Movie"],
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do filme",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Movie"
+                            },
+                            "examples": {
+                                "movie": {
+                                    "value": {
+                                        "name": "Homem Aranha",
+                                        "rating": 5
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "400": {
+                        "description": "Dados Inválidos"
+                    },
+                    "404": {
+                        "description": "Filme não encontrado como favorito"
+                    },
+                    "201": {
+                        "description": "Filme atualizado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao processar sua requisição"
+                    } 
+                }
+            },
+            "delete": {
+                "summary": "Remover filme dos favoritos",
+                "description": "Essa rota será responsável por remover determinado filme da lista de favoritos",
+                "tag": ["Movie"],
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do filme",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "201": {
+                        "description": "Filme deletado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao processar sua requisição"
+                    }         
+                }
+            }
+            
+        }
+    },
+    "components": {
+        "schemas": {
+            "Movie": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "rating": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-access-token"
+            }
+        }
+    }
+}
